@@ -28,8 +28,6 @@ const PostList = (props: Props) => {
     
   }, []);
 
-  console.log(data)
-
   return (
     <div>
       {
