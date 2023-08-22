@@ -1,10 +1,16 @@
 
 
-type Props = {}
+type Props = {
+  title: string,
+  description: string,
+}
 
 const PostCard = (props: Props) => {
   return (
-    <div>PostCard</div>
+    <div>
+      { props.title }
+      { props.description }
+    </div>
   )
 }
 
