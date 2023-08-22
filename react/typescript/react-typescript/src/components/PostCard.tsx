@@ -2,14 +2,14 @@
 
 type Props = {
   title: string,
-  description: string,
+  body: string,
 }
 
 const PostCard = (props: Props) => {
   return (
     <div>
       { props.title }
-      { props.description }
+      { props.body }
     </div>
   )
 }
