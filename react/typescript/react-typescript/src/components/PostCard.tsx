@@ -2,11 +2,11 @@ import { PostProps } from "../types/types"
 
 
 
-const PostCard = (props: PostProps) => {
+const PostCard = ({ title, body }: PostProps) => {
   return (
     <div>
-      { props.title }
-      { props.body }
+      { title }
+      { body }
     </div>
   )
 }
