@@ -1,6 +1,7 @@
 import Login from "./Pages/Login"
 import Page from "./Pages/Page"
 import UseContextExample from "./Pages/UseContextExample"
+import UseRefExample from "./Pages/UseRefExample"
 import PostList from "./components/PostList/PostList"
 import { ThemeProvider } from "./context/ThemeContext"
 
@@ -13,9 +14,11 @@ function App() {
       {/* <Page /> */}
       {/* <Login /> */}
 
-      <ThemeProvider>
+      {/* <ThemeProvider>
         <UseContextExample />
-      </ThemeProvider>
+      </ThemeProvider> */}
+
+      <UseRefExample />
     </div>
   )
 }
