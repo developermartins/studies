@@ -13,3 +13,11 @@ export type SizeActionType = { type: "CHANGE_FONTSIZE", payload: number };
 export type ActionType = ColorActionType | SizeActionType;
 
 // --------------------------------------------------------
+
+
+// Generics example
+export type ItemProps<T> = {
+  id: number,
+  title: string,
+  extra: T[],
+};
