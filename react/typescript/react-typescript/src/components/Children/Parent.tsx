@@ -2,10 +2,15 @@
 
 type Props = {}
 
-const Parent = (props: Props) => {
-  return (
-    <div>Parent</div>
-  )
-}
+// Passando components via props 
 
-export default Parent
+const Parent = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div>
+      <h1>Parent</h1>
+      { children }
+    </div>
+  );
+};
+
+export default Parent;

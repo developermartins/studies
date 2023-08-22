@@ -1,3 +1,4 @@
+import Page from "./Pages/Page"
 import PostList from "./components/PostList/PostList"
 
 
@@ -5,7 +6,8 @@ function App() {
 
   return (
     <div>
-      <PostList />
+      {/* <PostList /> */}
+      <Page />
     </div>
   )
 }
