@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import PostCard from "./PostCard"
+import { PostProps } from "../types/types";
 
 
 type Props = {}
@@ -32,7 +33,7 @@ const PostList = (props: Props) => {
   return (
     <div>
       {
-        data.map((post: { id: number, title: string, body: string }) => (
+        data.map((post: PostProps) => (
           <PostCard key={ post.id } { ...post }/>
         ))
       }
