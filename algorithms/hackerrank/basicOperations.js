@@ -2,7 +2,7 @@ let num1 = 2;
 let num2 = 4;
 
 let sum = num1 + num2;
-console.log(sum);
+console.log(`${num1} + ${num2} é: ${sum}`);
 
 let sub = num2 - num1;
 console.log(`${num2} - ${num1} é: ${sub}`);
@@ -10,3 +10,5 @@ console.log(`${num2} - ${num1} é: ${sub}`);
 let div = num2 / num1;
 console.log(`${num2} / ${num1} é: ${div}`);
 
+let mult = num1 * num2;
+console.log(`${num1} * ${num2} é: ${mult}`);
