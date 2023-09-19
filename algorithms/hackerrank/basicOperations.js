@@ -7,3 +7,6 @@ console.log(sum);
 let sub = num2 - num1;
 console.log(`${num2} - ${num1} é: ${sub}`);
 
+let div = num2 / num1;
+console.log(`${num2} / ${num1} é: ${div}`);
+
