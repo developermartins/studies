@@ -26,4 +26,4 @@ console.log(hero1.name, hero1.race, hero1.height);
 
 console.log(hero2.name, hero2.race);
 
-console.log(hero1.attack, hero1.name + ' atacou o ' + hero2.name);
+console.log(hero1.attack, `${hero1.name}  atacou o ${hero2.name}`);
