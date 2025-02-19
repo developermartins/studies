@@ -1,12 +1,34 @@
 class CharacterEncapsulado {
   name: string;
-  height: number;
   race: string;
+  readonly height: number;
+  private _age: number;
+  private _weight: number;
 
-  constructor (n: string, h: number, r: string) {
-    this.name = n;
-    this.height = h;
-    this.race = r;
+  constructor (name: string, height: number, race: string, age: number, weight: number) {
+    this.name = name;
+    this.height = height;
+    this.race = race;
+    this._age = age;
+    this._weight = weight;
+  }
+
+  getWeight() {
+    return this._weight
+  }
+
+  getAge() {
+    return this._age;
+  }
+
+  set age(newValue: number) {
+    if (newValue >= 0 && newValue < 200) {
+      this._age = newValue
+    }
+  }
+
+  birthday() {
+    this._age += 1
   }
 
   walk() {
@@ -18,12 +40,28 @@ class CharacterEncapsulado {
   }
 }
 
-// const hero1 = new Character('Martius', 1.90, 'human');
+const hero = new CharacterEncapsulado('Martius', 1.90, 'human', 24, 75);
 
-// const hero2 = new Character('??', 1.90, 'elf');
+// Alteração direta de variável pública
+hero.name = 'Lucas'
 
-// console.log(hero1.name, hero1.race, hero1.height);
+// Acesso direto a variável pública
+console.log(hero.name);
 
-// console.log(hero2.name, hero2.race);
+// Acesso a método público que manipula atributo privado
+console.log(hero.getWeight());
 
-// console.log(hero1.attack, `${hero1.name}  atacou o ${hero2.name}`);
+// Acesso a método com getter para manipular atributo privado como se fosse público
+console.log(hero.getAge());
+
+// Acesso a método público que manipula atributo privado
+hero.birthday();
+console.log(hero.getAge());
+
+// Acesso a método com setter para manipular atributo privado como se fosse público
+hero.age = 17;
+console.log(hero.getAge());
+
+// Leitura de atributo readonly
+console.log(hero.height);
+
