@@ -1,117 +1,97 @@
-// Código sem SRP (Single Responsible Principle)
-
 type Discipline = {
   name: string;
   grade: number;
   letterGrade?: string;
 };
 
+type School = {
+  name: string;
+  approvalGrade: number;
+};
+
 type Student = {
   name: string;
+  school: School;
   disciplines: Discipline[];
 };
 
-// const students = [
+const GRADE_DICT = {
+  numbers: [0.9, 0.8, 0.7, 0.6, 0.1],
+  letters: ['A', 'B', 'C', 'D', 'E'],
+};
+
+const studentsExample = [
+  {
+    name: 'Lee',
+    school: { name: 'Standard', approvalGrade: 0.7 },
+    disciplines: [
+      { name: 'matemática', grade: 0.8 },
+      { name: 'história', grade: 0.9 },
+    ],
+  },
+  {
+    name: 'Albus',
+    school: { name: 'Hogwarts', approvalGrade: 0.8 },
+    disciplines: [
+      { name: 'divination', grade: 0.8 },
+      { name: 'potions', grade: 0.9 },
+    ],
+  },
+];
+
+// const studentsExample = [
 //   {
 //     name: 'Lee',
-//     disciplines: [
-//       { name: 'matemática', grade: 0.8 },
-//       { name: 'história', grade: 0.6 },
-//     ],
-//   },
-//   {
-//     name: 'Clementine',
+//     school: 'Standard',
 //     disciplines: [
 //       { name: 'matemática', grade: 0.8 },
 //       { name: 'história', grade: 0.9 },
 //     ],
 //   },
-// ];
-
-// function setApproved(students: Array<Student>) {
-//   const studentsWithLetterGrade = students.map((student) => {
-//     const disciplinesWithLetterGrade = student.disciplines.map((discipline) => {
-//       if (discipline.grade >= 0.9) discipline.letterGrade = 'A';
-//       else if (discipline.grade >= 0.8) discipline.letterGrade = 'B';
-//       else if (discipline.grade >= 0.7) discipline.letterGrade = 'C';
-//       else if (discipline.grade >= 0.6) discipline.letterGrade = 'D';
-//       else if (discipline.grade >= 0.1) discipline.letterGrade = 'E';
-//       else discipline.letterGrade = 'F';
-
-//       return discipline;
-//     });
-
-//     return {
-//       name: student.name,
-//       disciplines: disciplinesWithLetterGrade,
-//     };
-//   });
-
-//   const approvedStudents = studentsWithLetterGrade.filter(({ disciplines }) =>
-//     disciplines.every((discipline) => discipline.grade > 0.7));
-
-//   /* Finja que o console.log é algo que atualiza uma base de dados */
-//   approvedStudents.map(({ name, disciplines }) => {
-//     console.log(`A pessoa com nome ${name} foi aprovada!`);
-//     disciplines.map(({ name, letterGrade }) =>
-//       console.log(`${name}: ${letterGrade}`));
-//   });
-// }
-
-// /* Abaixo temos um exemplo de execução */
-// const students = [
 //   {
-//     name: 'Lee',
+//     name: 'Albus',
+//     school: 'Hogwarts',
 //     disciplines: [
-//       { name: 'matemática', grade: 0.8 },
-//       { name: 'história', grade: 0.6 },
-//     ],
-//   },
-//   {
-//     name: 'Clementine',
-//     disciplines: [
-//       { name: 'matemática', grade: 0.8 },
-//       { name: 'história', grade: 0.9 },
+//       { name: 'divination', grade: 0.8 },
+//       { name: 'potions', grade: 0.9 },
 //     ],
 //   },
 // ];
 
-// setApproved(students);
+// /* Função menor para remover o uso excessivo de `if{}else`s */
+// const getGradeLetter = (gradeNumber: number): string => {
+//   const gradeNumbers = GRADE_DICT.numbers;
+//   const gradeLetters = GRADE_DICT.letters;
+//   for (let i = 0; i < gradeNumbers.length; i += 1) {
+//     if (gradeNumber >= gradeNumbers[i]) return gradeLetters[i];
+//   }
+//   return 'F';
+// };
 
-// =============================================== </> =======================================================
-
-// Código refatorado aplicando SRP:
-
-// Passo 1: Quebrar a função em três funções diferentes
-
-// Converte as notas numéricas para o conceito de letras
-// const percentageGradesIntoLetters = (student: Student): Student => ({
-//   name: student.name,
-
-//   disciplines: student.disciplines.map(({ name, grade }) => {
-//     let letterGrade;
-
-//     if (grade >= 0.9) letterGrade = 'A';
-//     else if (grade >= 0.8) letterGrade = 'B';
-//     else if (grade >= 0.7) letterGrade = 'C';
-//     else if (grade >= 0.6) letterGrade = 'D';
-//     else if (grade >= 0.1) letterGrade = 'E';
-//     else letterGrade = 'F';
-
-//     return { name, grade, letterGrade };
-//   }),
+// /* Coletar notas */
+// const getLetterGrades = (discipline: Discipline): Discipline => ({
+//   ...discipline,
+//   letterGrade: getGradeLetter(discipline.grade),
 // });
 
-// // Determina se o estudante foi aprovado
-// const approvedStudents = ({ disciplines }: Student): boolean => 
-//   disciplines.every(({ grade }) => grade > 0.7);
+// /* "Converter" */
+// const percentageGradesIntoLetters = (student: Student): Student => ({
+//   ...student,
+//   disciplines: student.disciplines.map(getLetterGrades),
+// });
 
-// // Atualiza os dados do estudante
-// const updateApprovalData = ({ name: studentName, disciplines }: Student): void => {
-//   console.log(`O estudante com nome ${studentName} foi aprovado!`);
+// /* "Determinar" | Alterando a funcionalidade para trabalhar com diferentes notas de corte */
+// const approvedStudents = ({ disciplines, school }: Student): boolean =>
+//   disciplines.every(({ grade }) => (
+//     school === 'Standard' ? grade >= 0.7 : grade >= 0.8
+//   ));
 
-//   disciplines.map(({ name, letterGrade }) => 
-//   console.log(`${name}: ${letterGrade}`));
+// /* "Atualizar" */
+// const updateApprovalData = (student: Student): void => {
+//   console.log(`A pessoa com nome ${student.name} foi aprovada!`);
+
+//   student.disciplines.forEach(({ name, letterGrade }) =>
+//     console.log(`${name}: ${letterGrade}`));
 // };
 
 // function setApproved(students: Student[]): void {
@@ -121,16 +101,11 @@ type Student = {
 //     .map(updateApprovalData);
 // }
 
-// setApproved(students);
+// setApproved(studentsExample);
 
-// =============================================== </> =======================================================
+// ============================================================= </> ===============================================================
 
-// Refatorando e reduzindo a complexidade da função "percentageGradesIntoLetters" aplicando SRP
-
-const GRADE_DICT = {
-  numbers: [0.9, 0.8, 0.7, 0.6, 0.1],
-  letters: ['A', 'B', 'C', 'D', 'E'],
-};
+// Exemplo aplicando OCP (Open/Closed Principle) na função approvedStudents
 
 /* Função menor para remover o uso excessivo de `if{}else`s */
 const getGradeLetter = (gradeNumber: number): string => {
@@ -154,9 +129,11 @@ const percentageGradesIntoLetters = (student: Student): Student => ({
   disciplines: student.disciplines.map(getLetterGrades),
 });
 
-/* "Determinar" */
-const approvedStudents = ({ disciplines }: Student): boolean =>
-  disciplines.every(({ grade }) => grade > 0.7);
+/* "Determinar" | Aplicando OCP*/
+const approvedStudents = ({ disciplines, school }: Student): boolean =>
+  disciplines.every(({ grade }) => (
+    grade >= school.approvalGrade
+  ));
 
 /* "Atualizar" */
 const updateApprovalData = (student: Student): void => {
@@ -172,6 +149,8 @@ function setApproved(students: Student[]): void {
     .filter(approvedStudents)
     .map(updateApprovalData);
 }
+
+setApproved(studentsExample);
 
 export {
   percentageGradesIntoLetters,
