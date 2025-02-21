@@ -90,11 +90,11 @@ const approvedStudents = ({ disciplines }: Student): boolean =>
   disciplines.every(({ grade }) => grade > 0.7);
 
 // Atualiza os dados do estudante
-const updateApprovalData = ({ name: studentName, disciplines }: Student ): void => {
+const updateApprovalData = ({ name: studentName, disciplines }: Student): void => {
   console.log(`O estudante com nome ${studentName} foi aprovado!`);
 
   disciplines.map(({ name, letterGrade }) => 
-  console.log(`${ name }: ${ letterGrade }`));
+  console.log(`${name}: ${letterGrade}`));
 };
 
 function setApproved(students: Student[]): void {
@@ -102,7 +102,26 @@ function setApproved(students: Student[]): void {
     .map(percentageGradesIntoLetters)
     .filter(approvedStudents)
     .map(updateApprovalData);
-};
+}
+
+const students = [
+  {
+    name: 'Lee',
+    disciplines: [
+      { name: 'matemática', grade: 0.8 },
+      { name: 'história', grade: 0.6 },
+    ],
+  },
+  {
+    name: 'Clementine',
+    disciplines: [
+      { name: 'matemática', grade: 0.8 },
+      { name: 'história', grade: 0.9 },
+    ],
+  },
+];
+
+setApproved(students);
 
 export {
   percentageGradesIntoLetters,
